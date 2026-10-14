@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-payagent}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-payagent_secret}
+      POSTGRES_DB: ${POSTGRES_DB:-payagent}
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./db-init/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  redis:
+    image: redis/redis-stack-server:latest
+    ports:
+      - "6379:6379"
+
+  # Previously `image: razorpay/mcp:latest` — the official Node.js MCP
+  # server. It was pulled and run, but nothing in the codebase actually
+  # spoke MCP to it (ai-agent/agent/tools.py called api.razorpay.com
+  # directly over plain REST). This now builds the Python MCP server at
+  # ./razorpay-mcp-server, which ai-agent/agent/mcp_client.py genuinely
+  # calls for Razorpay order creation.
+  razorpay-mcp:
+    build:
+      context: ./razorpay-mcp-server
+    ports:
+      - "3010:3000"
+    environment:
+      PORT: "3000"
+      RAZORPAY_KEY_ID: ${RAZORPAY_KEY_ID}
+      RAZORPAY_KEY_SECRET: ${RAZORPAY_KEY_SECRET}
+      RAZORPAY_MCP_AUTH_TOKEN: ${RAZORPAY_MCP_AUTH_TOKEN:-dev-mcp-token}
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:3000/health', timeout=3)"]
+      interval: 10s
+      retries: 5
+
+volumes:
+  postgres_data:

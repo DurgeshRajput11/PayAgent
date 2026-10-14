@@ -1,0 +1,23 @@
+{
+  "name": "payagent-dashboard",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "next": "14.2.35",
+    "react": "^18",
+    "react-dom": "^18",
+    "react-markdown": "^10.1.0",
+    "react-resizable-panels": "^4.12.3",
+    "recharts": "^3.10.1",
+    "remark-gfm": "^4.0.1",
+    "typescript": "^5"
+  }
+}
