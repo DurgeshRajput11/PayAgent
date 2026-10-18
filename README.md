@@ -2,7 +2,7 @@
 
 > An AI agent that shops for you. Search → Cart → Pay - fully autonomous with human-in-the-loop safety.
 
-![Python](https://img.shields.io/badge/Python-14354C?style=for-the-badge&logo=python&logoColor=white)
+![Python](https://img.shields.io/badge/Python-14354C?style=for-the-badge&logo=Python&logoColor=white)
 ![Next.js](https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)
 ![LangGraph](https://img.shields.io/badge/LangGraph-FF4F00?style=for-the-badge)
 ![Razorpay](https://img.shields.io/badge/Razorpay-02042B?style=for-the-badge&logo=razorpay&logoColor=white)
@@ -17,7 +17,7 @@ PayAgent is an autonomous shopping assistant that accepts natural language goals
 graph TD
     User([User]) -->|Natural Language| Dashboard[Next.js Dashboard]
     Dashboard -->|POST /agent/run| Agent[Python LangGraph Agent]
-    Agent <-->|Tools via HTTP| Merchant[python Merchant Server]
+    Agent <-->|Tools via HTTP| Merchant[Python Merchant Server]
     Agent <-->|MCP| Razorpay[Razorpay MCP Server]
     Merchant <--> DB[(PostgreSQL)]
     Merchant <--> Cache[(Redis)]
@@ -43,7 +43,7 @@ You can run the entire stack using the provided bash scripts.
 ```bash
 ./start.sh
 ```
-This will start Docker, the python server, the Python AI agent, and the Next.js dashboard in the background. The logs are cleanly captured in the `logs/` directory.
+This will start Docker, the Python server, the Python AI agent, and the Next.js dashboard in the background. The logs are cleanly captured in the `logs/` directory.
 
 To stop everything when you're done, run:
 ```bash
@@ -60,7 +60,7 @@ If you prefer running services manually:
 docker compose up -d
 ```
 
-**2. Start python Merchant Server**
+**2. Start Python Merchant Server**
 ```bash
 cd merchant-server-py
 pip install -r requirements.txt
@@ -71,11 +71,11 @@ uvicorn main:app --reload --port 8000
 **3. Start Python AI Agent**
 ```bash
 cd ai-agent
-python3 -m venv venv
+Python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 cp .env.example .env # Add GROQ_API_KEY
-python3 -m uvicorn main:app --port 8001
+Python3 -m uvicorn main:app --port 8001
 ```
 
 **4. Start Next.js Dashboard**
@@ -97,7 +97,7 @@ Try these queries on the dashboard:
 | Component | Technology | Description |
 |-----------|------------|-------------|
 | **Frontend** | Next.js 14, React, Recharts | Sleek dashboard with Server-Sent Events (SSE), voice input, and charts. |
-| **Backend API** | python , PostgreSQL | Blazing fast merchant API managing catalog, cart logic, and orders. |
+| **Backend API** | Python , PostgreSQL | Blazing fast merchant API managing catalog, cart logic, and orders. |
 | **Agent Core** | Python, LangGraph | State machine, tool execution, and dynamic context injection. |
 | **LLM Provider** | Groq (Llama 3) | Low-latency inference engine for the conversational interface. |
 | **Caching & Pub/Sub** | Redis | Ephemeral cart states and real-time pub/sub pipeline for audit trails. |
